@@ -3,6 +3,11 @@
     touch-action:none;
 }
 
+#canvas {
+    width:100vw;
+    height:100vh;
+}
+
 /** ELEMENT POSITIONS **/
 #dragDropWindow1 { top:76px;left:100px; }
 #dragDropWindow2 { top:148px; left:600px; }
