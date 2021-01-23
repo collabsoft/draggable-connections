@@ -33,9 +33,9 @@
                 hideConnectionInfo();
         };
 
-    jsPlumb.ready(function () {
+    jsPlumbBrowserUI.ready(function () {
 
-        var instance = window.j = jsPlumb.newInstance({
+        var instance = window.j = jsPlumbBrowserUI.newInstance({
             dragOptions: { cursor: 'pointer', zIndex: 2000 },
             paintStyle: { stroke: '#666' },
             endpointHoverStyle: { fill: "orange" },
@@ -54,11 +54,11 @@
             instance.bind("connection", function (info, originalEvent) {
                 updateConnections(info.connection);
             });
-            instance.bind("connectionDetached", function (info, originalEvent) {
+            instance.bind("connection:detach", function (info, originalEvent) {
                 updateConnections(info.connection, true);
             });
 
-            instance.bind("connectionMoved", function (info, originalEvent) {
+            instance.bind("connection:move", function (info, originalEvent) {
                 //  only remove here, because a 'connection' event is also fired.
                 // in a future release of jsplumb this extra connection event will not
                 // be fired.
@@ -206,20 +206,20 @@
 
             var hideLinks = document.querySelectorAll(".drag-drop-demo .hide");
             instance.on(hideLinks, "click", function (e) {
-                instance.toggleVisible(instance.getElement(this.getAttribute("rel")));
+                instance.toggleVisible(this.parentNode);
                 instance.consume(e);
             });
 
             var dragLinks = document.querySelectorAll(".drag-drop-demo .drag");
             instance.on(dragLinks, "click", function (e) {
-                var s = instance.toggleDraggable(instance.getElement(this.getAttribute("rel")));
+                var s = instance.toggleDraggable(this.parentNode);
                 this.innerHTML = (s ? 'disable dragging' : 'enable dragging');
                 instance.consume(e);
             });
 
             var detachLinks = document.querySelectorAll(".drag-drop-demo .detach");
             instance.on(detachLinks, "click", function (e) {
-                instance.deleteConnectionsForElement(instance.getElement(this.getAttribute("rel")));
+                instance.deleteConnectionsForElement(this.parentNode);
                 instance.consume(e);
             });
 
@@ -229,8 +229,6 @@
                 instance.consume(e);
             });
         });
-
-      //  jsPlumb.fire("jsPlumbDemoLoaded", instance);
 
     });
 })();
