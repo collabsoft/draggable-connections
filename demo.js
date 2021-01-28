@@ -43,7 +43,7 @@
             endpointStyle: { width: 20, height: 16, stroke: '#666' },
             endpoint: "Rectangle",
             anchors: ["TopCenter", "TopCenter"],
-            container: "canvas",
+            container: canvas,
             dropOptions:{activeClass:"dragActive", hoverClass:"dropHover"}
         });
 
