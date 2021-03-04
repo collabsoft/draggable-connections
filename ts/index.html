@@ -9,12 +9,11 @@
         <link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 
         <link rel="stylesheet" href="node_modules/@jsplumb/browser-ui/css/jsplumbtoolkit.css">
-        <link rel="stylesheet" href="demo.css">
+        <link rel="stylesheet" href="../demo.css">
     </head>
     <body>
 
         <div class="jtk-demo-main">
-            <!-- demo -->
             <div class="jtk-demo-canvas canvas-wide drag-drop-demo jtk-surface jtk-surface-nopan" id="canvas">
                 <div class="window" id="dragDropWindow1">one<br/><br/><a href="#" class="cmdLink hide">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="dragDropWindow1">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="dragDropWindow1">detach all</a></div>
                 <div class="window" id="dragDropWindow2">two<br/><br/><a href="#" class="cmdLink hide">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="dragDropWindow2">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="dragDropWindow2">detach all</a></div>
@@ -22,8 +21,6 @@
                 <div class="window" id="dragDropWindow4">four<br/><br/><a href="#" class="cmdLink hide">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="dragDropWindow4">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="dragDropWindow4">detach all</a></div>
                 <div id="list"></div>
             </div>
-			<!-- /demo -->
-            <!-- explanation -->
             <div class="description">
                 <h4>DRAG &amp; DROP</h4>
                 <p>Drag from any Endpoint to similar Endpoints on other elements to create Connections.</p>
@@ -35,17 +32,10 @@
                     <a id="clear" class="cmd" href="#">clear plumbing</a>
                 </div>
             </div>
-            <!-- /explanation -->
         </div>
 
 
-        <!-- JS -->
-        <script src="node_modules/@jsplumb/community-core/js/jsplumb.core.umd.js"></script>
-        <script src="node_modules/@jsplumb/browser-ui/js/jsplumb.browser-ui.umd.js"></script>
-        <!-- /JS -->
-
-		<!--  demo code -->
-		<script src="demo.js"></script>
+        <script src="_build/demo.umd.js"></script>
 
     </body>
 </html>
