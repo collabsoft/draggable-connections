@@ -64,8 +64,8 @@
 .cmdLink { font-size:0.80em;}
 
 /** DRAG/DROP CLASSES **/
-.dragActive { border:2px dotted orange; }
-.dropHover { border:1px dotted red; }
+.jtk-drag-active { border:2px dotted orange; }
+.jtk-drag-hover { border:1px dotted red; }
 
 /** INFO WINDOW **/
 #list {
