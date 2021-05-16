@@ -1,8 +1,12 @@
 
 import { Connection, Endpoint, EVENT_CLICK,
     AnchorPlacement, AnchorLocations, StraightConnector,
-    DotEndpoint, BezierConnector, RectangleEndpoint,
-    EVENT_MAX_CONNECTIONS
+    DotEndpoint, BezierConnector,
+    EVENT_MAX_CONNECTIONS, EndpointOptions, BezierOptions,
+    EVENT_CONNECTION,
+    EVENT_CONNECTION_DETACHED,
+    EVENT_CONNECTION_MOVED,
+    RectangleEndpoint
 } from "@jsplumb/core"
 
 import { newInstance, ready } from "@jsplumb/browser-ui"
@@ -51,41 +55,32 @@ ready(() => {
         endpointHoverStyle: { fill: "orange" },
         hoverPaintStyle: { stroke: "orange" },
         endpointStyle: { width: 20, height: 16, stroke: '#666' },  //<----bum
-        endpoint: "Rectangle",
-        anchors: ["Top", "Top"],
+        endpoint: RectangleEndpoint.type,
+        anchors: [AnchorLocations.Top, AnchorLocations.Top],
         container: canvas
-        // ,
-        // dropOptions:{activeClass:"dragActive", hoverClass:"dropHover"}
     })
 
     // suspend drawing and initialise.
     instance.batch( () => {
 
         // bind to connection/connectionDetached events, and update the list of connections on screen.
-        instance.bind("connection", (info:{connection:Connection}, originalEvent:Event) => {
+        instance.bind(EVENT_CONNECTION, (info:{connection:Connection}, originalEvent:Event) => {
             updateConnections(info.connection);
         });
-        instance.bind("connection:detach", (info:{connection:Connection}, originalEvent:Event) => {
+        instance.bind(EVENT_CONNECTION_DETACHED, (info:{connection:Connection}, originalEvent:Event) => {
             updateConnections(info.connection, true);
         });
 
-        instance.bind("connection:move", (info:{connection:Connection}, originalEvent:Event) => {
+        instance.bind(EVENT_CONNECTION_MOVED, (info:{connection:Connection}, originalEvent:Event) => {
             //  only remove here, because a 'connection' event is also fired.
             // in a future release of jsplumb this extra connection event will not
             // be fired.
             updateConnections(info.connection, true);
         });
 
-        instance.bind("click", (component:any, originalEvent:Event) => {
+        instance.bind(EVENT_CLICK, (component:any, originalEvent:Event) => {
             alert("click!")
         });
-
-        // configure some drop options for use by all endpoints.
-        const exampleDropOptions = {
-            tolerance: "touch",
-            hoverClass: "dropHover",
-            activeClass: "dragActive"
-        };
 
         //
         // first example endpoint.  it's a 25x21 rectangle (the size is provided in the 'style' arg to the Endpoint),
@@ -104,7 +99,7 @@ ready(() => {
         const exampleEndpoint = {
             endpoint: RectangleEndpoint.type,
             paintStyle: { width: 25, height: 21, fill: exampleColor },
-            isSource: true,
+            source: true,
             reattach: true,
             scope: "blue",
             connectorStyle: {
@@ -117,12 +112,10 @@ ready(() => {
                 stroke: exampleColor,
                 dashstyle: "2 2"
             },
-            isTarget: true,
+            target: true,
             beforeDrop:  (params:{sourceId:string, targetId:string}) => {
                 return confirm("Connect " + params.sourceId + " to " + params.targetId + "?");
             }
-            // ,
-            // dropOptions: exampleDropOptions
         }
 
         //
@@ -130,16 +123,15 @@ ready(() => {
         // and has scope 'exampleConnection2'.
         //
         const color2 = "#316b31"
-        const exampleEndpoint2 = {
+        const exampleEndpoint2:EndpointOptions = {
             endpoint: {type:DotEndpoint.type, options:{ radius: 11 }},
             paintStyle: { fill: color2 },
-            isSource: true,
+            source: true,
             scope: "green",
             connectorStyle: { stroke: color2, strokeWidth: 6 },
-            connector: { type:BezierConnector.type, options:{ curviness: 63 } },
+            connector: { type:BezierConnector.type, options:{ curviness: 63 } as BezierOptions },
             maxConnections: 3,
-            isTarget: true,
-            dropOptions: exampleDropOptions
+            target: true
         }
 
         //
@@ -155,15 +147,14 @@ ready(() => {
             endpoint: { type:DotEndpoint.type, options:{ radius: 17 } },
             anchor: AnchorLocations.BottomLeft,
             paintStyle: { fill: example3Color, opacity: 0.5 },
-            isSource: true,
+            source: true,
             scope: 'yellow',
             connectorStyle: {
                 stroke: example3Color,
                 strokeWidth: 4
             },
             connector: StraightConnector.type,
-            isTarget: true,
-            dropOptions: exampleDropOptions,
+            target: true,
             beforeDetach:  (conn:Connection) => {
                 return confirm("Detach connection?");
             },

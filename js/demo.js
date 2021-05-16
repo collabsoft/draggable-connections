@@ -2,6 +2,7 @@
 (function () {
 
     var listDiv = document.getElementById("list"),
+        canvas = document.getElementById("canvas"),
 
         showConnectionInfo = function (s) {
             listDiv.innerHTML = s;
@@ -35,16 +36,15 @@
 
     jsPlumbBrowserUI.ready(function () {
 
-        var instance = window.j = jsPlumbBrowserUI.newInstance({
+        var instance = jsPlumbBrowserUI.newInstance({
             dragOptions: { cursor: 'pointer', zIndex: 2000 },
             paintStyle: { stroke: '#666' },
             endpointHoverStyle: { fill: "orange" },
             hoverPaintStyle: { stroke: "orange" },
             endpointStyle: { width: 20, height: 16, stroke: '#666' },
             endpoint: "Rectangle",
-            anchors: ["TopCenter", "TopCenter"],
-            container: canvas,
-            dropOptions:{activeClass:"dragActive", hoverClass:"dropHover"}
+            anchors: ["Top", "Top"],
+            container: canvas
         });
 
         // suspend drawing and initialise.
@@ -69,13 +69,6 @@
                 alert("click!")
             });
 
-            // configure some drop options for use by all endpoints.
-            var exampleDropOptions = {
-                tolerance: "touch",
-                hoverClass: "dropHover",
-                activeClass: "dragActive"
-            };
-
             //
             // first example endpoint.  it's a 25x21 rectangle (the size is provided in the 'style' arg to the Endpoint),
             // and it's both a source and target.  the 'scope' of this Endpoint is 'exampleConnection', meaning any connection
@@ -93,7 +86,7 @@
             var exampleEndpoint = {
                 endpoint: "Rectangle",
                 paintStyle: { width: 25, height: 21, fill: exampleColor },
-                isSource: true,
+                source: true,
                 reattach: true,
                 scope: "blue",
                 connectorStyle: {
@@ -106,11 +99,10 @@
                     stroke: exampleColor,
                     dashstyle: "2 2"
                 },
-                isTarget: true,
+                target: true,
                 beforeDrop: function (params) {
                     return confirm("Connect " + params.sourceId + " to " + params.targetId + "?");
-                },
-                dropOptions: exampleDropOptions
+                }
             };
 
             //
@@ -121,13 +113,12 @@
             var exampleEndpoint2 = {
                 endpoint: {type:"Dot", options:{ radius: 11 }},
                 paintStyle: { fill: color2 },
-                isSource: true,
+                source: true,
                 scope: "green",
                 connectorStyle: { stroke: color2, strokeWidth: 6 },
                 connector: {type:"Bezier", options:{ curviness: 63 } },
                 maxConnections: 3,
-                isTarget: true,
-                dropOptions: exampleDropOptions
+                target: true
             };
 
             //
@@ -143,15 +134,14 @@
                 endpoint: {type:"Dot", options:{radius: 17} },
                 anchor: "BottomLeft",
                 paintStyle: { fill: example3Color, opacity: 0.5 },
-                isSource: true,
+                source: true,
                 scope: 'yellow',
                 connectorStyle: {
                     stroke: example3Color,
                     strokeWidth: 4
                 },
                 connector: "Straight",
-                isTarget: true,
-                dropOptions: exampleDropOptions,
+                target: true,
                 beforeDetach: function (conn) {
                     return confirm("Detach connection?");
                 },
