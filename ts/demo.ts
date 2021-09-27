@@ -1,15 +1,17 @@
 
-import { Connection, Endpoint, EVENT_CLICK,
-    AnchorPlacement, AnchorLocations, StraightConnector,
-    DotEndpoint, BezierConnector,
-    EVENT_MAX_CONNECTIONS, EndpointOptions, BezierOptions,
+import { AnchorLocations, ArrayAnchorSpec } from "@jsplumb/common"
+import { BezierOptions,BezierConnector } from "@jsplumb/connector-bezier"
+import { Connection, Endpoint,
+    StraightConnector,
+    DotEndpoint,
+    EVENT_MAX_CONNECTIONS, EndpointOptions,
     EVENT_CONNECTION,
     EVENT_CONNECTION_DETACHED,
     EVENT_CONNECTION_MOVED,
     RectangleEndpoint
 } from "@jsplumb/core"
 
-import { newInstance, ready } from "@jsplumb/browser-ui"
+import { EVENT_CLICK, newInstance, ready } from "@jsplumb/browser-ui"
 
 const listDiv = document.getElementById("list")
 
@@ -174,7 +176,7 @@ ready(() => {
 
         // setup some DynamicAnchors for use with the blue endpoints
         // and a function to set as the maxConnections callback.
-        const anchors:Array<AnchorPlacement> = [
+        const anchors:Array<ArrayAnchorSpec> = [
                 [1, 0.2, 1, 0],
                 [0.8, 1, 0, 1],
                 [0, 0.8, -1, 0],
